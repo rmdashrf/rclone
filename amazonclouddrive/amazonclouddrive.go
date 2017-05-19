@@ -24,11 +24,11 @@ import (
 	"time"
 
 	"github.com/ncw/go-acd"
-	"github.com/ncw/rclone/dircache"
-	"github.com/ncw/rclone/fs"
-	"github.com/ncw/rclone/oauthutil"
-	"github.com/ncw/rclone/pacer"
-	"github.com/ncw/rclone/rest"
+	"github.com/rmdashrf/rclone_acd_hack/dircache"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
+	"github.com/rmdashrf/rclone_acd_hack/oauthutil"
+	"github.com/rmdashrf/rclone_acd_hack/pacer"
+	"github.com/rmdashrf/rclone_acd_hack/rest"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 )
@@ -88,15 +88,15 @@ func init() {
 
 // Fs represents a remote acd server
 type Fs struct {
-	name         string             // name of this remote
-	features     *fs.Features       // optional features
-	c            *acd.Client        // the connection to the acd server
-	noAuthClient *http.Client       // unauthenticated http client
-	root         string             // the path we are working on
-	dirCache     *dircache.DirCache // Map of directory path to directory id
-	pacer        *pacer.Pacer       // pacer for API calls
-	trueRootID   string             // ID of true root directory
-	tokenRenewer *oauthutil.Renew   // renew the token on expiry
+	name         string               // name of this remote
+	features     *fs.Features         // optional features
+	c            *acd.Client          // the connection to the acd server
+	noAuthClient *http.Client         // unauthenticated http client
+	root         string               // the path we are working on
+	dirCache     *dircache.DirCache   // Map of directory path to directory id
+	pacer        *pacer.Pacer         // pacer for API calls
+	trueRootID   string               // ID of true root directory
+	tokenRenewer oauthutil.RenewIface // renew the token on expiry
 }
 
 // Object describes a acd object
@@ -174,12 +174,23 @@ func (f *Fs) shouldRetry(resp *http.Response, err error) (bool, error) {
 // NewFs constructs an Fs from the path, container:path
 func NewFs(name, root string) (fs.Fs, error) {
 	root = parsePath(root)
-	oAuthClient, ts, err := oauthutil.NewClient(name, acdConfig)
-	if err != nil {
-		log.Fatalf("Failed to configure Amazon Drive: %v", err)
+	var (
+		c           *acd.Client
+		err         error
+		ts          *oauthutil.TokenSource
+		oAuthClient *http.Client
+	)
+	if !acd.CookieHack {
+		oAuthClient, ts, err = oauthutil.NewClient(name, acdConfig)
+		if err != nil {
+			log.Fatalf("Failed to configure Amazon Drive: %v", err)
+		}
+		c = acd.NewClient(oAuthClient)
+	} else {
+		log.Printf("Using hack\n")
+		c = acd.NewClient(nil)
 	}
 
-	c := acd.NewClient(oAuthClient)
 	f := &Fs{
 		name:         name,
 		root:         root,
@@ -190,14 +201,16 @@ func NewFs(name, root string) (fs.Fs, error) {
 	f.features = (&fs.Features{CaseInsensitive: true, ReadMimeType: true}).Fill(f)
 
 	// Update endpoints
-	var resp *http.Response
-	err = f.pacer.Call(func() (bool, error) {
-		_, resp, err = f.c.Account.GetEndpoints()
-		return f.shouldRetry(resp, err)
-	})
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to get endpoints")
-	}
+	/*
+		var resp *http.Response
+		err = f.pacer.Call(func() (bool, error) {
+			_, resp, err = f.c.Account.GetEndpoints()
+			return f.shouldRetry(resp, err)
+		})
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to get endpoints")
+		}
+	*/
 
 	// Get rootID
 	rootInfo, err := f.getRootInfo()
@@ -206,13 +219,22 @@ func NewFs(name, root string) (fs.Fs, error) {
 	}
 	f.trueRootID = *rootInfo.Id
 
-	// Renew the token in the background
-	f.tokenRenewer = oauthutil.NewRenew(f.String(), ts, func() error {
-		_, err := f.getRootInfo()
-		return err
-	})
+	if !acd.CookieHack {
+		// Renew the token in the background
+		/*
+			f.tokenRenewer = oauthutil.NewRenew(f.String(), ts, func() error {
+				_, err := f.getRootInfo()
+				return err
+			})
+		*/
+		log.Printf("not ssetting fake renewer\n")
+	} else {
+		log.Printf("seting fake tokenrenwer\n")
+		f.tokenRenewer = oauthutil.FakeRenew{}
+	}
 
 	f.dirCache = dircache.New(root, f.trueRootID, f)
+	_ = ts
 
 	// Find the current root
 	err = f.dirCache.FindRoot(false)

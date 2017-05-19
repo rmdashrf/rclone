@@ -16,7 +16,7 @@ import (
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
 
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	"github.com/pkg/errors"
 	"github.com/pkg/sftp"
 )

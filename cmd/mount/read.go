@@ -5,8 +5,8 @@ package mount
 import (
 	"bazil.org/fuse"
 	fusefs "bazil.org/fuse/fs"
-	"github.com/ncw/rclone/cmd/mountlib"
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/cmd/mountlib"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	"golang.org/x/net/context"
 )
 

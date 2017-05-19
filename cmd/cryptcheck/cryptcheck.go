@@ -1,9 +1,9 @@
 package cryptcheck
 
 import (
-	"github.com/ncw/rclone/cmd"
-	"github.com/ncw/rclone/crypt"
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/cmd"
+	"github.com/rmdashrf/rclone_acd_hack/crypt"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	"github.com/ncw/swift"
 	"github.com/pkg/errors"
 )

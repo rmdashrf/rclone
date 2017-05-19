@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"sync"
 
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 )
 
 var (

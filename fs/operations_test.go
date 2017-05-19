@@ -36,9 +36,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ncw/rclone/fs"
-	_ "github.com/ncw/rclone/fs/all" // import all fs
-	"github.com/ncw/rclone/fstest"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
+	_ "github.com/rmdashrf/rclone_acd_hack/fs/all" // import all fs
+	"github.com/rmdashrf/rclone_acd_hack/fstest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

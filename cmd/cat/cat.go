@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/ncw/rclone/cmd"
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/cmd"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	"github.com/spf13/cobra"
 )
 

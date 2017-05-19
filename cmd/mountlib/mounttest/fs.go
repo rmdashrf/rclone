@@ -14,10 +14,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ncw/rclone/cmd/mountlib"
-	"github.com/ncw/rclone/fs"
-	_ "github.com/ncw/rclone/fs/all" // import all the file systems
-	"github.com/ncw/rclone/fstest"
+	"github.com/rmdashrf/rclone_acd_hack/cmd/mountlib"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
+	_ "github.com/rmdashrf/rclone_acd_hack/fs/all" // import all the file systems
+	"github.com/rmdashrf/rclone_acd_hack/fstest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

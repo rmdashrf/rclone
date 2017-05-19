@@ -14,12 +14,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ncw/rclone/dircache"
-	"github.com/ncw/rclone/fs"
-	"github.com/ncw/rclone/oauthutil"
-	"github.com/ncw/rclone/onedrive/api"
-	"github.com/ncw/rclone/pacer"
-	"github.com/ncw/rclone/rest"
+	"github.com/rmdashrf/rclone_acd_hack/dircache"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
+	"github.com/rmdashrf/rclone_acd_hack/oauthutil"
+	"github.com/rmdashrf/rclone_acd_hack/onedrive/api"
+	"github.com/rmdashrf/rclone_acd_hack/pacer"
+	"github.com/rmdashrf/rclone_acd_hack/rest"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 )

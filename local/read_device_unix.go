@@ -8,7 +8,7 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 )
 
 var (

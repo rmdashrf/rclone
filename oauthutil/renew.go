@@ -3,7 +3,7 @@ package oauthutil
 import (
 	"sync/atomic"
 
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 )
 
 // Renew allows tokens to be renewed on expiry if uploads are in progress.
@@ -12,6 +12,26 @@ type Renew struct {
 	ts      *TokenSource // token source that needs renewing
 	uploads int32        // number of uploads in progress - atomic access required
 	run     func() error // a transaction to run to renew the token on
+}
+
+type RenewIface interface {
+	Start()
+	Stop()
+	Invalidate()
+}
+
+type FakeRenew struct{}
+
+func (f FakeRenew) Start() {
+
+}
+
+func (f FakeRenew) Stop() {
+
+}
+
+func (f FakeRenew) Invalidate() {
+
 }
 
 // NewRenew creates a new Renew struct and starts a background process

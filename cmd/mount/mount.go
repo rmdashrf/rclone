@@ -13,9 +13,9 @@ import (
 
 	"bazil.org/fuse"
 	fusefs "bazil.org/fuse/fs"
-	"github.com/ncw/rclone/cmd"
-	"github.com/ncw/rclone/cmd/mountlib"
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/cmd"
+	"github.com/rmdashrf/rclone_acd_hack/cmd/mountlib"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"golang.org/x/sys/unix"

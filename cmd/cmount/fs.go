@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/billziss-gh/cgofuse/fuse"
-	"github.com/ncw/rclone/cmd/mountlib"
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/cmd/mountlib"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	"github.com/pkg/errors"
 )
 

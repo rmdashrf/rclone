@@ -1,51 +1,16 @@
-[![Logo](https://rclone.org/img/rclone-120x120.png)](https://rclone.org/)
+# WARNING
+Don't use this. This is a hack because rclone's API keys were revoked and I needed
+to copy off my files, desperately.
 
-[Website](https://rclone.org) |
-[Documentation](https://rclone.org/docs/) |
-[Contributing](CONTRIBUTING.md) |
-[Changelog](https://rclone.org/changelog/) |
-[Installation](https://rclone.org/install/) |
-[Forum](https://forum.rclone.org/)
-[G+](https://google.com/+RcloneOrg)
+# How to use
+1. Get [EditThisCookie](https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg?hl=en)
+2. Log into Amazon Drive through the web client.
+3. Export your cookies into a file (e.g. `acd_cookies.txt`)
+4. Set environment variable `ACD_COOKIEHACK` to the path to the exported cookies.
+5. Pray that Amazon doesn't ban you (or implements any form of validation) (or your session expires) (or anything)
 
-
-[![Build Status](https://travis-ci.org/ncw/rclone.svg?branch=master)](https://travis-ci.org/ncw/rclone) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/ncw/rclone?branch=master&passingText=windows%20-%20ok&svg=true)](https://ci.appveyor.com/project/ncw/rclone) [![GoDoc](https://godoc.org/github.com/ncw/rclone?status.svg)](https://godoc.org/github.com/ncw/rclone) 
-
-Rclone is a command line program to sync files and directories to and from
-
-  * Google Drive
-  * Amazon S3
-  * Openstack Swift / Rackspace cloud files / Memset Memstore
-  * Dropbox
-  * Google Cloud Storage
-  * Amazon Drive
-  * Microsoft OneDrive
-  * Hubic
-  * Backblaze B2
-  * Yandex Disk
-  * SFTP
-  * FTP
-  * The local filesystem
-
-Features
-
-  * MD5/SHA1 hashes checked at all times for file integrity
-  * Timestamps preserved on files
-  * Partial syncs supported on a whole file basis
-  * Copy mode to just copy new/changed files
-  * Sync (one way) mode to make a directory identical
-  * Check mode to check for file hash equality
-  * Can sync to and from network, eg two different cloud accounts
-  * Optional encryption (Crypt)
-  * Optional FUSE mount
-
-See the home page for installation, usage, documentation, changelog
-and configuration walkthroughs.
-
-  * https://rclone.org/
-
-License
--------
-
-This is free software under the terms of MIT the license (check the
-COPYING file included in this package).
+# Example
+```
+export ACD_COOKIEHACK=/tmp/acd_cookies.txt
+rclone_acd_hack copy acd:/ gdrive:
+```

@@ -3,7 +3,7 @@ package dropbox
 import (
 	"testing"
 
-	"github.com/ncw/rclone/fs"
+	"github.com/rmdashrf/rclone_acd_hack/fs"
 	dropboxapi "github.com/stacktic/dropbox"
 	"github.com/stretchr/testify/assert"
 )

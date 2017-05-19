@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -19,10 +20,11 @@ import (
 
 const (
 	// LibraryVersion is the current version of this library
-	LibraryVersion     = "0.1.0"
-	defaultMetadataURL = "https://drive.amazonaws.com/drive/v1/"
-	defaultContentURL  = "https://content-na.drive.amazonaws.com/cdproxy/"
-	userAgent          = "go-acd/" + LibraryVersion
+	LibraryVersion      = "0.1.0"
+	defaultMetadataURL  = "https://drive.amazonaws.com/drive/v1/"
+	defaultContentURL   = "https://content-na.drive.amazonaws.com/cdproxy/"
+	userAgent           = "go-acd/" + LibraryVersion
+	cookieHackUserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 )
 
 // A Client manages communication with the Amazon Cloud Drive API.
@@ -54,6 +56,12 @@ func NewClient(httpClient *http.Client) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
+
+	if CookieHack {
+		log.Printf("setting acd cookiehack jar\n")
+		httpClient.Jar = Jar
+	}
+
 	metadataURL, _ := url.Parse(defaultMetadataURL)
 	contentURL, _ := url.Parse(defaultContentURL)
 
@@ -118,8 +126,17 @@ func (c *Client) newRequest(base *url.URL, method, urlStr string, body interface
 
 	//	req.Header.Add("Accept", mediaTypeV3)
 	if c.UserAgent != "" {
-		req.Header.Add("User-Agent", c.UserAgent)
+		if !CookieHack {
+			req.Header.Add("User-Agent", c.UserAgent)
+		} else {
+			req.Header.Set("User-Agent", cookieHackUserAgent)
+			req.Header.Set("x-amzn-SessionId", SessionId)
+			for _, c := range Cookies {
+				req.AddCookie(c)
+			}
+		}
 	}
+
 	return req, nil
 }
 
